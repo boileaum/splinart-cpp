@@ -20,7 +20,7 @@ jobs:
           cache: true
       - run: |
           cmake -S . -B .build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug -DBUILD_EXAMPLES=ON
-          ccppcheck --enable=all -q --project=.build/compile_commands.json --disable=information --suppress=missingIncludeSystem --error-exitcode=1
+          cppcheck --enable=all -q --project=.build/compile_commands.json --disable=information --suppress=missingIncludeSystem --error-exitcode=1
         shell: pixi run bash -e {0}
   tests:
     needs: pre-commit
