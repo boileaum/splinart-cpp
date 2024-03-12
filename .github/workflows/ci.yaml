@@ -23,7 +23,9 @@ jobs:
           cppcheck --enable=all -q --project=.build/compile_commands.json --disable=information --suppress=missingIncludeSystem --error-exitcode=1
         shell: pixi run bash -e {0}
   tests:
-    needs: pre-commit
+    needs:
+      - pre-commit
+      - cppcheck
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
