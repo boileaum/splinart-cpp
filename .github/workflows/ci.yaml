@@ -18,12 +18,10 @@ jobs:
       - uses: prefix-dev/setup-pixi@v0.5.1
         with:
           cache: true
-      - name: cppcheck
-        uses: deep5050/cppcheck-action@main
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN}}
-          enable: all
-          other_options: --disable=information --suppressions-list=.cppcheck
+      - run: |
+          cmake -S . -B .build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug -DBUILD_EXAMPLES=ON
+          ccppcheck --enable=all -q --project=.build/compile_commands.json --disable=information --suppress=missingIncludeSystem --error-exitcode=1
+        shell: pixi run bash -e {0}
   tests:
     needs: pre-commit
     runs-on: ${{ matrix.os }}
